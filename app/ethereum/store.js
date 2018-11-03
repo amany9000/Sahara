@@ -16,30 +16,33 @@ return web3;
 } 
 
 const readInt = async (pass) => {
-	const web3 = getWeb3(pass);	
+	const web3 = getWeb3(pass);
 	const accounts = await  web3.eth.getAccounts();
 	const store = await new web3.eth.Contract((JSON.parse(compiledStore.interface)), 
-	"0xF01600c35f1644A27B6BCD5129baAfa8437A285b");
+	"0x24f5EC608bCcD0bA82AE395BD6a5bE084865bff2");
 
 	return await store.methods.getDeployedInitiatives().call();
 } 
 
-//readInt();
-
-const deployInt = async (min, initiativeName, initiativeDesc, creatorName, creatorContact, pass) => {
+/*
+readInt("cousin wasp clip dynamic advance devote this million magic bean ceiling anger").then(async (deployedInts)=> {
+	console.log(deployedInts);
+})
+*/
+const deployInt = async (initiativeName, initiativeDesc, creatorName, creatorContact, pass) => {
 	const web3 = getWeb3(pass);				
 	const accounts = await  web3.eth.getAccounts();
 	const store = await new web3.eth.Contract((JSON.parse(compiledStore.interface)), 
-	"0xF01600c35f1644A27B6BCD5129baAfa8437A285b");
-    		
-	console.log("Deployed Int Initially- ", await store.methods.getDeployedInitiatives().call())
-	await store.methods.createProject(web3.utils.toWei(min,"ether"), initiativeName, initiativeDesc, creatorName, creatorContact).send(({gas: "3000000", from: accounts[0]}));	
-
+	"0x24f5EC608bCcD0bA82AE395BD6a5bE084865bff2");
+    const dep = await store.methods.getDeployedInitiatives().call();		
+	console.log("Deployed Int Initially- ", dep)
+	await store.methods.createInitiative(initiativeName, initiativeDesc, creatorName, creatorContact).send(({gas: "3000000", from: accounts[0]}));	
+	delete dep;
 	return await store.methods.getDeployedInitiatives().call()
 } 
 /*
-deployInt("0.25", "Feed'em", "Feeding the homeless Kids of Vadodara", "Daksha Foundation", "www.daksha.com").then((add) => {
-	console.log(add[add.length - 1]);
+deployInt("Teach them all", "Teaching the Kids of Gandhinagar", "Faksha Foundation", "www.faksha.com", "cousin wasp clip dynamic advance devote this million magic bean ceiling anger").then(async(add) => {
+	console.log("after deployment - ",add);
 });
 */
 module.exports = {readInt, getWeb3, deployInt};
