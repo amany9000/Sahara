@@ -1,3 +1,7 @@
+.demo-loadmore-list {
+  min-height: 350px;
+}
+
 .App {
   text-align: center;
 }
@@ -29,4 +33,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.start {
+  background-image: url('./image/back.jpg');
+  height: 93vh;
 }
