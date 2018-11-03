@@ -19,11 +19,16 @@ class Home extends Component {
             fontSize:'20px'
           }}>
           <h1 style={{
-            color:'white',
+            color:'black',
           }}>
             A transparent platform for supporting the less fortunate
           </h1>
-        </div>
+          <Link to="/account">
+            <Button type="primary">
+              Contribute<Icon type="right" />
+            </Button>
+          </Link>
+          </div>
       </div>
     );
   }
