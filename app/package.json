@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.10.3",
     "fs-extra": "^7.0.0",
+    "path": "^0.12.7",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-redux": "^5.1.0",
