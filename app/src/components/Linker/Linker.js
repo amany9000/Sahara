@@ -10,6 +10,7 @@ import Projects from '../Pages/Projects/Projects.js';
 import Home from '../Pages/Home/Home.js';
 import AboutUs from '../Pages/AboutUs/AboutUs.js';
 import ContactUs from '../Pages/Contactus/Contactus.js';
+import Account from '../Pages/Account/Account.js';
 
 class Linker extends Component {
   render() {
@@ -39,6 +40,7 @@ class Linker extends Component {
                 </span>
             </Menu>
           <Route exact path="/" component={Home}/>
+          <Route exact path="/account" component={Account}/>
           <Route exact path="/projects" component={Projects}/>
           <Route exact path="/contactus" component={ContactUs} />
           <Route exact path="/aboutus" component={AboutUs} />
