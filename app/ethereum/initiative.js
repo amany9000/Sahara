@@ -36,6 +36,47 @@ const getAllinitiatives = async(pass) => {
 	});
 }
 
+const getInitiativeDetails = async(address, pass) => {
+	
+	const web3 = getWeb3(pass);				
+	const accounts = await  web3.eth.getAccounts();		
+	const initiativeDetailList = {};
+	
+	const initiative = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
+	address);
+	
+	const initiativeName = await initiative.methods.initiativeName().call();
+	const initiativeDesc = await initiative.methods.initiativeDesc().call();
+	const creatorName = await initiative.methods.creatorName().call();
+	const creatorContact = await initiative.methods.creatorContact().call();
 
+	let backRequest  = await initiative.methods.backRequests(0).call().catch((err) => {
+		console.log("hey1",{initiativeName, initiativeDesc, creatorName, creatorContact})
+		return {initiativeName, initiativeDesc, creatorName, creatorContact}
+	})
+
+	//console.log(request)
+	let i = 0;
+	let BRDetail = [];
+	
+	while(backRequest.description != null){
+		BRDetail.push({
+			index: i,
+			request:
+			{
+			description: backRequest.description,
+			value : backRequest.value
+		}});
+		i++;
+		backRequest = await initiative.methods.backRequests(i).call().catch((err) => {
+		//console.log("hey2", {initiativeName, initiativeDesc, creatorName, creatorContact, minContribution, approversCount})
+		return {initiativeName, initiativeDesc, creatorName, creatorContact, BRDetail}
+		});
+	}
+	delete initiative,i,backRequest; 	
+	console.log("hey3",{initiativeName, initiativeDesc, creatorName, creatorContact, BRDetail})
+	return {initiativeName, initiativeDesc, creatorName, creatorContact, BRDetail}
+}
 
 //getAllinitiatives("cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
+getInitiativeDetails("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E","cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
