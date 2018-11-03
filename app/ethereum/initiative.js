@@ -13,9 +13,9 @@ const getAllinitiatives = async(pass) => {
 		const accounts = await  web3.eth.getAccounts();
 		
 		const initiativeDetailList = [];
-		for(i in deployedinitiatives){		
+		for(i in deployedInts){		
 			const initiative = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
-			deployedinitiatives[i]);
+			deployedInts[i]);
 
 			const initiativeName = await initiative.methods.initiativeName().call();
 			const initiativeDesc = await initiative.methods.initiativeDesc().call();
@@ -23,7 +23,7 @@ const getAllinitiatives = async(pass) => {
 			const creatorContact = await initiative.methods.creatorContact().call();
 			
 			initiativeDetailList.push({
-				address: deployedinitiatives[i],
+				address: deployedInts[i],
 				initiativeName,
 				initiativeDesc,
 				creatorName,
@@ -35,3 +35,7 @@ const getAllinitiatives = async(pass) => {
 		return initiativeDetailList;
 	});
 }
+
+
+
+//getAllinitiatives("cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
