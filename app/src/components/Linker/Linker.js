@@ -7,6 +7,7 @@ import {
 import { List, Avatar, Button, Spin, Menu, Icon } from 'antd';
 
 import Projects from '../Pages/Projects/Projects.js';
+import AddProject from "../Pages/AddProject/AddProject.js";
 import Home from '../Pages/Home/Home.js';
 import AboutUs from '../Pages/AboutUs/AboutUs.js';
 import ContactUs from '../Pages/Contactus/Contactus.js';
@@ -42,6 +43,7 @@ class Linker extends Component {
           <Route exact path="/" component={Home}/>
           <Route exact path="/account" component={Account}/>
           <Route exact path="/projects" component={Projects}/>
+          <Route exact path="/addproject"  component={AddProject} />
           <Route exact path="/contactus" component={ContactUs} />
           <Route exact path="/aboutus" component={AboutUs} />
         </div>
