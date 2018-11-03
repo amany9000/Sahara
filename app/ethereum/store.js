@@ -39,4 +39,4 @@ deployProject("0.25", "Feed'em", "Feeding the homeless Kids of Vadodara", "Daksh
 	console.log(add[add.length - 1]);
 });
 */
-module.exports = {readProjects, web3, deployInt};
+module.exports = {readInt, web3, deployInt};
