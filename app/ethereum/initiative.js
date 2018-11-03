@@ -2,13 +2,14 @@
 const compiledInt = require("../ethereum/build/Initiative.json");
 const compiledRequest = require("../ethereum/build/Request.json");
 
-const {readInt, web3, deployInt} = require("./store.js");
+const {readInt, getWeb3, deployInt} = require("./store.js");
 
-const getAllinitiatives = async() => {
+const getAllinitiatives = async(pass) => {
 
-	return await readIntInt()
+	return await readInt(pass)
 		.then( async (deployedInts) => {
-			
+		
+		const web3 = getWeb3(pass);	
 		const accounts = await  web3.eth.getAccounts();
 		
 		const initiativeDetailList = [];

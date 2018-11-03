@@ -5,15 +5,18 @@ const hdWalletProvider = require("truffle-hdwallet-provider");
 const compiledStore = require("../ethereum/build/Store.json");
 
 
+const getWeb3 = (pass) => {
 const provider = new hdWalletProvider(
-	"{Your Account Mnemonic}",
+	pass,
 	"https://rinkeby.infura.io/v3/e8bccfbf91864d7ea8797b0ae8b2d30a"  // This address will be generated through infura 
 );
 
 const web3 = new Web3(provider);
+return web3;	
+} 
 
-const readInt = async () => {
-
+const readInt = async (pass) => {
+	const web3 = getWeb3(pass);	
 	const accounts = await  web3.eth.getAccounts();
 	const store = await new web3.eth.Contract((JSON.parse(compiledStore.interface)), 
 	"0xF01600c35f1644A27B6BCD5129baAfa8437A285b");
@@ -21,10 +24,10 @@ const readInt = async () => {
 	return await store.methods.getDeployedInitiatives().call();
 } 
 
-//readProjects();
+//readInt();
 
-const deployInt = async (min, initiativeName, initiativeDesc, creatorName, creatorContact) => {
-			
+const deployInt = async (min, initiativeName, initiativeDesc, creatorName, creatorContact, pass) => {
+	const web3 = getWeb3(pass);				
 	const accounts = await  web3.eth.getAccounts();
 	const store = await new web3.eth.Contract((JSON.parse(compiledStore.interface)), 
 	"0xF01600c35f1644A27B6BCD5129baAfa8437A285b");
@@ -35,8 +38,8 @@ const deployInt = async (min, initiativeName, initiativeDesc, creatorName, creat
 	return await store.methods.getDeployedInitiatives().call()
 } 
 /*
-deployProject("0.25", "Feed'em", "Feeding the homeless Kids of Vadodara", "Daksha Foundation", "www.daksha.com").then((add) => {
+deployInt("0.25", "Feed'em", "Feeding the homeless Kids of Vadodara", "Daksha Foundation", "www.daksha.com").then((add) => {
 	console.log(add[add.length - 1]);
 });
 */
-module.exports = {readInt, web3, deployInt};
+module.exports = {readInt, getWeb3, deployInt};
