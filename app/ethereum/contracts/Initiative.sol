@@ -111,9 +111,9 @@ contract Request{
         approvers[msg.sender] = true;
         approversCount++;
     }
-    function back(address dest, uint val) public onlyManager tarNotDone {
+    function back(address dest, uint val) public tarNotDone {
         require(!complete);
-        require(address(this).balance >= val);
+        require((address(this).balance) >= (val));
         dest.transfer(val);
     }
     function getCount() public view returns (uint){
