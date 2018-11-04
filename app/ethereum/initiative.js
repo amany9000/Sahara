@@ -73,8 +73,8 @@ const getInitiativeDetails = async(address, pass) => {
 			});
 			delete description,value;
 		}
-	console.log("reqDetailList - ", reqDetailList);
-
+	//console.log("reqDetailList - ", reqDetailList);
+	i=0;
 	let backRequest  = await initiative.methods.backRequests(0).call().catch((err) => {
 		console.log("hey1",{initiativeName, initiativeDesc, creatorName, creatorContact})
 		return {initiativeName, initiativeDesc, creatorName, creatorContact, reqDetailList}
@@ -94,6 +94,7 @@ const getInitiativeDetails = async(address, pass) => {
 		return {initiativeName, initiativeDesc, creatorName, creatorContact, BRDetail}
 		});
 	}
+	console.log("BRDetail - ", BRDetail);	
 	delete initiative,i,backRequest; 	
 	console.log("hey3",{initiativeName, initiativeDesc, creatorName, creatorContact,reqDetailList, BRDetail})
 	return {initiativeName, initiativeDesc, creatorName, creatorContact,reqDetailList, BRDetail}
@@ -170,7 +171,7 @@ const finalizeBR = async(address, index, pass) => {
 	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
 		address);
 	const accounts = await  web3.eth.getAccounts();
-	let request  = await int.methods.finalizeBR().send({
+	let request  = await int.methods.finalizeBR(index).send({
 				from: accounts[0],
 				gas: "3000000"
 			}).then((xyz) => {
@@ -253,3 +254,5 @@ const getReqDetails = async(address, pass) => {
 //getReqDetails("0x35F971fD3337C30dd1Fc80d73BAc1b64dB83DdB7", "cousin wasp clip dynamic advance devote this million magic bean ceiling anger")
 //createBR("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E","0x35F971fD3337C30dd1Fc80d73BAc1b64dB83DdB7", "0x853F795E8B0767a50d0715241E4ac4644c016B36",5,"cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
 //getBRDetails("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E",0,"cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
+//approveBR("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E",0,"cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
+//finalizeBR("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E",0,"cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
