@@ -50,42 +50,21 @@ const getInitiativeDetails = async(address, pass) => {
 	const creatorName = await initiative.methods.creatorName().call();
 	const creatorContact = await initiative.methods.creatorContact().call();
 
-
+	let backRequest  = await initiative.methods.backRequests(0).call().catch((err) => {
+		console.log("hey1",{initiativeName, initiativeDesc, creatorName, creatorContact})
+		return {initiativeName, initiativeDesc, creatorName, creatorContact}
+	})
 
 	//console.log(request)
 	let i = 0;
 	let BRDetail = [];
 	
-	const deployedReq = await initiative.methods.getDeployedRequests().call();
-
-	const reqDetailList = [];
-		for(i in deployedReq){		
-			const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
-			deployedReq[i]);
-
-			const description = await req.methods.description().call();
-			const value = await req.methods.value().call();
-
-			reqDetailList.push({
-				address: deployedReq[i],
-				description,
-				value
-			});
-			delete description,value;
-		}
-	console.log("reqDetailList - ", reqDetailList);
-
-	let backRequest  = await initiative.methods.backRequests(0).call().catch((err) => {
-		console.log("hey1",{initiativeName, initiativeDesc, creatorName, creatorContact})
-		return {initiativeName, initiativeDesc, creatorName, creatorContact, reqDetailList}
-	});	
-	while(backRequest.source != null){
+	while(backRequest.description != null){
 		BRDetail.push({
 			index: i,
 			request:
 			{
-			source: backRequest.source,
-			dest: backRequest.dest ,
+			description: backRequest.description,
 			value : backRequest.value
 		}});
 		i++;
@@ -125,117 +104,3 @@ const createRequest = async(address, description, contact, value, recipient ,min
 			.send({
 				from: accounts[0],
 				gas: "3000000"
-			});
-	console.log("yesss");			
-}
-
-const createBR = async(address, from, to, val, pass) => {
-	
-	const web3 = getWeb3(pass);					
-	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
-		address);
-	const accounts = await  web3.eth.getAccounts();
-	
-	await project.methods
-			.createBR(from, to, val)
-			.send({
-				from: accounts[0],
-				gas: "3000000"
-			});
-	console.log("yesss");			
-}
-
-const finalizeRequest = async(address, index) => {
-
-	const web3 = getWeb3(pass);						
-	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
-		address);
-	const accounts = await  web3.eth.getAccounts();
-	let request  = await req.methods.finalizeRequest().send({
-				from: accounts[0],
-				gas: "3000000"
-			}).then((xyz) => {
-		console.log("Dne!!!!");
-		return "Done";
-	}).catch((err) => {
-		console.log(err)
-		return null;
-	});
-}
-
-const finalizeBR = async(address, index, pass) => {
-
-	const web3 = getWeb3(pass);						
-	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
-		address);
-	const accounts = await  web3.eth.getAccounts();
-	let request  = await int.methods.finalizeBR().send({
-				from: accounts[0],
-				gas: "3000000"
-			}).then((xyz) => {
-		console.log("Dne!!!!");
-		return "Done";
-	}).catch((err) => {
-		console.log(err)
-		return null;
-	});
-}
-
-const approveBR = async(address, index, pass) => {
-
-	const web3 = getWeb3(pass);							
-	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
-		address);
-	const accounts = await  web3.eth.getAccounts();
-	let request  = await int.methods.approveBR(index).send({
-				from: accounts[0],
-				gas: "3000000"
-			}).then((xyz) => {
-		console.log("Approved!!!!");
-		return "Approved";
-	}).catch((err) => {
-		console.log(err)
-		return null;
-	});
-}
-
-const getBRDetails = async(address, index, pass) => {
-
-	const web3 = getWeb3(pass);								
-	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
-		address);
-
-	const accounts = await  web3.eth.getAccounts();
-	let br  = await int.methods.BackRequest(index).call().catch((err) => {
-		return null;
-	});
-
-	let BRDesc = {source:br.source,
-        dest:br.dest,
-        value: br.value,
-        approvalCount: br.approvalCount
-        };
-    console.log(BRDesc)
-    return BRDesc;  
-}
-const getReqDetails = async(address, pass) => {
-
-	const web3 = getWeb3(pass);								
-	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
-		address);
-
-	let reqDesc = {
-		description: req.description,
-    	contact: req.contact,
-    	value: req.value,
-    	recipient: req.recipient,
-    	complete: req.complete,
-    	manager: req.manager,
-    	minContribution: req.minContribution,
-    	approversCount: req.approversCount	
-        };
-    console.log(reqDesc)
-    return reqDesc;  
-}
-//getAllInitiatives("cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
-//getInitiativeDetails("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E","cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
