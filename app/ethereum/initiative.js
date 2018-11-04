@@ -146,7 +146,7 @@ const createBR = async(address, from, to, val, pass) => {
 	console.log("yesss");			
 }
 
-const finalizeRequest = async(address, index) => {
+const finalizeRequest = async(address, pass) => {
 
 	const web3 = getWeb3(pass);						
 	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
@@ -242,3 +242,4 @@ const getReqDetails = async(address, pass) => {
 //getInitiativeDetails("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E","cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
 //createRequest("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E", "Buying Utensils","www.vendor.com", 4,"0x88a4dd75299C3628dc75ba58f238bD3Fff29Ede0",1, "cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
 //contribute("0x31E7cb1Ad0F3bbb45a77f56e12D12C7a3Dec1b55","1","cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
+//finalizeRequest("0x31E7cb1Ad0F3bbb45a77f56e12D12C7a3Dec1b55", "cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
