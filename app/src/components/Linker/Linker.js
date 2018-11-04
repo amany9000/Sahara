@@ -52,10 +52,10 @@ class Linker extends Component {
           <Route exact path="/addproject/:mnemonic"  component={AddProject} />
           <Route exact path="/contactus" component={ContactUs} />
           <Route exact path="/aboutus" component={AboutUs} />
-          <Route exact path="/projects/:projectId" component={AboutProject} />
+          <Route exact path="/projects/:projectId/:pass" component={AboutProject} />
           <Route exact path="/requests" component={RequestList} />
           <Route exact path="/newrequest"  component={NewRequest} />
-          <Route exact path="/requests/:requestId" component={AboutRequest} />
+          <Route exact path="/requests/:requestId/:pass/:item" component={AboutRequest} />
         </div>
     </Router>
     );

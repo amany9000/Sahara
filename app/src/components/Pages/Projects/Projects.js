@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom'
 
 import reqwest from 'reqwest';
-import {getAllinitiatives} from '../../../ethereum/initiative';
+import {getAllInitiatives} from '../../../ethereum/initiative';
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
 class Projects extends Component {
@@ -27,7 +27,7 @@ class Projects extends Component {
       });
     });
 
-    getAllinitiatives(this.props.mnemonic).then((some) => {
+    getAllInitiatives(this.props.mnemonic).then((some) => {
       this.setState({
         list: some,
         loading: false,
@@ -88,7 +88,7 @@ class Projects extends Component {
               <List.Item>
                 <List.Item.Meta
                   avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                  title={<Link to={"/projects/" + item.address }>{item.address}</Link>}
+                  title={<Link to={`/projects/${item.address}/${this.props.mnemonic}`}>{item.address}</Link>}
                   description={`${item.initiativeName} : ${item.initiativeDesc}`}
                 />
               </List.Item>

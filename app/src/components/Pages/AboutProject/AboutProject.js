@@ -9,7 +9,7 @@ import { List, Avatar, Spin, Menu, Icon } from 'antd';
 import {
   Link
 } from 'react-router-dom'
-
+import {getInitiativeDetails} from '../../../ethereum/initiative';
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
 const FormItem = Form.Item;
@@ -29,11 +29,16 @@ class About extends Component {
       componentDidMount() {
         this.getData((res) => {
           this.setState({
-            loading: false,
             data: res.results,
           });
         });
 
+        getInitiativeDetails(this.props.match.params.projectId, this.props.match.params.pass).then((some) => {
+          this.setState({
+            project: some,
+            loading: false,
+          });
+        })
       }
       getData = (callback) => {
         reqwest({
@@ -63,6 +68,7 @@ class About extends Component {
           });
         });
       }
+
     constructor() {
         super();
         this.state = {
@@ -114,11 +120,30 @@ class About extends Component {
                     {
                       project?
                       <div>
-                        <h2>0x987F619229903cf59fB9a79De1875A12f5409Bbf</h2>
+                        <h2>{this.props.match.params.projectId}</h2>
                         <h2>{project.projectDesc}</h2>
                         <p><b>Founder:</b> {project.creatorName}</p>
                         <p><b>Contact:</b> {project.creatorContact}</p>
-                        <Link to="/requests">See all requests</Link>
+                        <br /> <br />
+                        <h1>Request List</h1>
+                        <List
+                            className="demo-loadmore-list"
+                            loading={loading}
+                            itemLayout="horizontal"
+                            loadMore={loadMore}
+                            dataSource={this.state.project.reqDetailList}
+                            renderItem={(item, index) => (
+                            <List.Item>
+                            {/* <List.Item actions={[<a>edit</a>, <a>more</a>]}> */}
+                                <List.Item.Meta
+                                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                                title={item.address}
+                                description={<Link to={`/requests/${item.address}/${this.props.match.params.pass}/${index}`}>{item.description}</Link>}
+                                />
+                                <div><h4>Requested value={item.value}</h4></div>
+                            </List.Item>
+                            )}
+                        />
                       </div>
                     :
                     null
@@ -126,7 +151,7 @@ class About extends Component {
                 </Col>
             </Row>
         </div>
-        <Row type="flex" justify="center">
+        {/* <Row type="flex" justify="center">
             <span style={{fontSize: "40px", marginTop: "16px"}}>Contributors</span>
             <Divider ></Divider>
             <Col xs={20} sm={16} md={12} lg={18} xl={12}>
@@ -135,13 +160,13 @@ class About extends Component {
                     loading={loading}
                     itemLayout="horizontal"
                     loadMore={loadMore}
-                    dataSource={data}
+                    dataSource={this.state.project.reqDetailList}
                     renderItem={item => (
                     <List.Item>
-                    {/* <List.Item actions={[<a>edit</a>, <a>more</a>]}> */}
+                    {/* <List.Item actions={[<a>edit</a>, <a>more</a>]}> 
                         <List.Item.Meta
                         avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                        title={item.name.last}
+                        title={item.address}
                         description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                         />
                         <div>content</div>
@@ -149,7 +174,7 @@ class About extends Component {
                     )}
                 />
             </Col>
-        </Row>
+        </Row> */}
 
 
         </div>

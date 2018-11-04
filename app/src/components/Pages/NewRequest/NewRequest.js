@@ -3,7 +3,7 @@ import '../../../App.css';
 import { Form, Input, Button} from 'antd';
 import { Row, Col, Divider } from 'antd';
 import { Switch } from 'antd';
-
+import { createRequest } from "../../../ethereum/initiative";
 
 const FormItem = Form.Item;
 
@@ -13,6 +13,13 @@ class NewRequest extends Component {
         super();
         this.state = {
           formLayout: 'horizontal',
+          address: '',
+          description: '',
+          contact: '',
+          value: '',
+          recipient: '',
+          min: '',
+          pass: ''
         };
       }
       
@@ -34,29 +41,49 @@ class NewRequest extends Component {
                     <h1 style={{display: "flex", justifyContent: "center"}}>Add new Request</h1>
                     <Form layout={formLayout}>
                         <FormItem
+                            label="Address"
+                            {...formItemLayout}
+                        >
+                            <Input placeholder="Address" value={this.state.address} onChange={(event)=> this.setState({address: event.target.value})} />
+                        </FormItem>
+                        <FormItem
                             label="Description"
                             {...formItemLayout}
                         >
-                            <TextArea rows={4} />
+                            <TextArea rows={4} value={this.state.description} onChange={(event)=> this.setState({description: event.target.value})}/>
                         </FormItem>
                         <FormItem
-                            label="Project"
+                            label="Contact"
                             {...formItemLayout}
                         >
-                            {/* <Input placeholder="Name of founder" /> */}
-                            <p>0x987F619229903cf59fB9a79De1875A12f5409Bbf</p>
+                            <Input placeholder="Contact" value={this.state.contact} onChange={(event)=> this.setState({contact: event.target.value})}/>
                         </FormItem>
                         <FormItem
                             label="Value (Wei)"
                             {...formItemLayout}
                         >
-                            <Input placeholder="Value of the request (in Wei)" />
+                            <Input placeholder="Value of the request (in Wei)" value={this.state.value} onChange={(event)=> this.setState({value: event.target.value})} />
                         </FormItem>
                         <FormItem
                             label="Vendor"
                             {...formItemLayout}
                         >
-                            <Input placeholder="Contact details" />
+                            <Input placeholder="Vendor details" value={this.state.recipient} onChange={(event)=> this.setState({recipient: event.target.value})} />
+                        </FormItem>
+                        <FormItem
+                            label="Minimum"
+                            {...formItemLayout}
+                        >
+                             <Input placeholder="Minimum" value={this.state.min} onChange={(event)=> this.setState({min: event.target.value})} />
+                        </FormItem>
+                        <FormItem
+                            label="Mnemonic"
+                            {...formItemLayout}
+                        >
+                             <Input placeholder="Mnemonic" value={this.state.pass} onChange={(event)=> this.setState({pass: event.target.value})}/>
+                        </FormItem>
+                        <FormItem {...buttonItemLayout}>
+                            <Button type="primary" onClick={()=> createRequest(this.state.address, this.state.description, this.state.contact, this.state.value, this.state.recipient ,this.state.min, this.state.pass)}>Submit</Button>
                         </FormItem>
                     </Form>
                 </Col>
