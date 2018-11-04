@@ -95,7 +95,7 @@ const getInitiativeDetails = async(address, pass) => {
 		});
 	}
 	delete initiative,i,backRequest; 	
-	console.log("hey3",{initiativeName, initiativeDesc, creatorName, creatorContact, BRDetail})
+	console.log("hey3",{initiativeName, initiativeDesc, creatorName, creatorContact,reqDetailList, BRDetail})
 	return {initiativeName, initiativeDesc, creatorName, creatorContact,reqDetailList, BRDetail}
 }
 
@@ -224,16 +224,23 @@ const getReqDetails = async(address, pass) => {
 	const web3 = getWeb3(pass);								
 	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
 		address);
-
+	const desp = await req.methods.description().call(); 
+	const con = await req.methods.contact().call(); 
+	const val = await req.methods.value().call(); 
+	const rec = await req.methods.recipient().call(); 
+	const com = await req.methods.complete().call(); 
+	const man = await req.methods.manager().call(); 
+	const min = await req.methods.minContribution().call(); 
+	const app = await req.methods.approversCount().call(); 
 	let reqDesc = {
-		description: req.description,
-    	contact: req.contact,
-    	value: req.value,
-    	recipient: req.recipient,
-    	complete: req.complete,
-    	manager: req.manager,
-    	minContribution: req.minContribution,
-    	approversCount: req.approversCount	
+		description: desp,
+    	contact: con,
+    	value: val,
+    	recipient: rec,
+    	complete: com,
+    	manager: man,
+    	minContribution: min,
+    	approversCount: app	
         };
     console.log(reqDesc)
     return reqDesc;  
@@ -243,3 +250,4 @@ const getReqDetails = async(address, pass) => {
 //createRequest("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E", "Buying Utensils","www.vendor.com", 4,"0x88a4dd75299C3628dc75ba58f238bD3Fff29Ede0",1, "cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
 //contribute("0x31E7cb1Ad0F3bbb45a77f56e12D12C7a3Dec1b55","1","cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
 //finalizeRequest("0x31E7cb1Ad0F3bbb45a77f56e12D12C7a3Dec1b55", "cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
+//getReqDetails("0x35F971fD3337C30dd1Fc80d73BAc1b64dB83DdB7", "cousin wasp clip dynamic advance devote this million magic bean ceiling anger")
