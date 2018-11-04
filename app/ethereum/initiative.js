@@ -104,3 +104,8 @@ const createRequest = async(address, description, contact, value, recipient ,min
 			.send({
 				from: accounts[0],
 				gas: "3000000"
+	return {initiativeName, initiativeDesc, creatorName, creatorContact, BRDetail}
+}
+
+//getAllinitiatives("cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
+// getInitiativeDetails("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E","cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
