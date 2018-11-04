@@ -23,7 +23,7 @@ class Home extends Component {
           }}>
             A transparent platform for supporting the less fortunate
           </h1>
-          <Link to="/account">
+          <Link to="/contribute">
             <Button type="primary">
               Contribute<Icon type="right" />
             </Button>

@@ -6,7 +6,7 @@ import {
   BrowserRouter as Router,
   Route,
   Link
-} from 'react-router-dom'
+} from 'react-router-dom';
 
 import reqwest from 'reqwest';
 
@@ -54,6 +54,8 @@ class RequestList extends Component {
         window.dispatchEvent(new Event('resize'));
       });
     });
+
+  
   }
   render() {
     console.log(this.props.mnemonic);

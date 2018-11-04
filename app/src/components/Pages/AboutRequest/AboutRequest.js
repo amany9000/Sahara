@@ -9,6 +9,8 @@ import { List, Avatar, Spin, Menu, Icon } from 'antd';
 import {
   Link
 } from 'react-router-dom'
+import { getReqDetails, contribute, finalizeRequest } from "../../../ethereum/initiative";
+// import {finalizeRequest} from '../../../ethereum/initiative';
 
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
@@ -26,16 +28,22 @@ class About extends Component {
         loadingMore: false,
         showLoadingMore: true,
         data: [],
-        request: null
+        request: null,
+        value: ''
       }
       componentDidMount() {
         this.getData((res) => {
           this.setState({
-            loading: false,
             data: res.results,
           });
         });
-
+        getReqDetails(this.props.match.params.requestId, this.props.match.params.pass).then((some) => {
+          console.log(some);
+          this.setState({
+            request: some,
+            loading: false
+          });
+        })
       }
 
       getData = (callback) => {
@@ -71,6 +79,7 @@ class About extends Component {
       }
       
   render() {
+    console.log(this.props.match.params.requestId + ' ' + this.props.match.params.pass)
     const { loading, loadingMore, showLoadingMore, data, request } = this.state;
     const loadMore = showLoadingMore ? (
       <div style={{ textAlign: 'center', marginTop: 12, height: 32, lineHeight: '32px' }}>
@@ -97,13 +106,19 @@ class About extends Component {
                     <Form layout={formLayout}>
                         <FormItem {...buttonItemLayout}>
                             <Switch checkedChildren="Approve" unCheckedChildren="Decline"/>
-
+                        </FormItem>
+                        <FormItem
+                            label="Value"
+                            {...formItemLayout}
+                        >
+                            <Input placeholder="Value (in Wei)" value={this.state.value} onChange={(event) => this.setState({value: event.target.value})}/>
                         </FormItem>
 
                         <FormItem {...buttonItemLayout}>
-                            <Button type="primary">Submit</Button>
-                        </FormItem>                        <FormItem {...buttonItemLayout}>
-                            <Button type="danger">Finalize</Button>
+                            <Button type="primary" onClick={()=> contribute(this.props.match.params.requestId, this.state.value, this.props.match.params.pass)}>Contribute</Button>
+                        </FormItem>                        
+                        <FormItem {...buttonItemLayout}>
+                            <Button type="danger" onClick={()=> finalizeRequest(this.props.match.params.requestId, this.props.match.params.pass)}>Finalize</Button>
                         </FormItem>
                     </Form>
                 </Col>
@@ -113,7 +128,6 @@ class About extends Component {
                     <h2>{request.description}</h2>
                     <p>Contact: {request.contact}</p>
                     <p>Reciepient: {request.recipient}</p>
-                    <p>Approves : {request.approvalCount}</p>
                     <p>Is Complete: {request.complete?"Yes":"No"}</p>
                     <p>Value: {request.value}</p>
                     </div>
