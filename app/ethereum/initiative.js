@@ -207,7 +207,7 @@ const getBRDetails = async(address, index, pass) => {
 		address);
 
 	const accounts = await  web3.eth.getAccounts();
-	let br  = await int.methods.BackRequest(index).call().catch((err) => {
+	let br  = await int.methods.backRequests(index).call().catch((err) => {
 		return null;
 	});
 
@@ -252,3 +252,4 @@ const getReqDetails = async(address, pass) => {
 //finalizeRequest("0x31E7cb1Ad0F3bbb45a77f56e12D12C7a3Dec1b55", "cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
 //getReqDetails("0x35F971fD3337C30dd1Fc80d73BAc1b64dB83DdB7", "cousin wasp clip dynamic advance devote this million magic bean ceiling anger")
 //createBR("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E","0x35F971fD3337C30dd1Fc80d73BAc1b64dB83DdB7", "0x853F795E8B0767a50d0715241E4ac4644c016B36",5,"cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
+//getBRDetails("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E",0,"cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
