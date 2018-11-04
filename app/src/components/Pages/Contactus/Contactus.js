@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../../../App.css';
 import { List, Avatar, Button, Spin, Menu, Icon, Card } from 'antd';
 import { Row, Col } from 'antd';
-import img from '../../../image/back.jpg';
 
 class ContactUs extends Component {
   render() {

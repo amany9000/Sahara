@@ -56,6 +56,7 @@ class RequestList extends Component {
     });
   }
   render() {
+    console.log(this.props.mnemonic);
     const { loading, loadingMore, showLoadingMore, data } = this.state;
     const loadMore = showLoadingMore ? (
       <div style={{ textAlign: 'center', marginTop: 12, height: 32, lineHeight: '32px' }}>

@@ -16,6 +16,7 @@ import Home from '../Pages/Home/Home.js';
 import AboutUs from '../Pages/AboutUs/AboutUs.js';
 import ContactUs from '../Pages/Contactus/Contactus.js';
 import Account from '../Pages/Account/Account.js';
+import Auth from '../../container/auth';
 
 class Linker extends Component {
   render() {
@@ -31,7 +32,7 @@ class Linker extends Component {
                 collapsedWidth="0"
             >
                 <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
-                <Menu.Item key="2"><Link to="/projects">Project List</Link></Menu.Item>
+                <Menu.Item key="2"><Link to="/contribute">Contribute</Link></Menu.Item>
                 <Menu.Item key="3"><Link to="/aboutus">About Us</Link></Menu.Item>
                 <Menu.Item key="4"><Link to="/contactus">Contact Us</Link></Menu.Item>
                 <span style={{
@@ -46,8 +47,9 @@ class Linker extends Component {
             </Menu>
           <Route exact path="/" component={Home}/>
           <Route exact path="/account" component={Account}/>
+          <Route exact path="/contribute" component={Auth}/>
           <Route exact path="/projects" component={Projects}/>
-          <Route exact path="/addproject"  component={AddProject} />
+          <Route exact path="/addproject/:mnemonic"  component={AddProject} />
           <Route exact path="/contactus" component={ContactUs} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/projects/:projectId" component={AboutProject} />
