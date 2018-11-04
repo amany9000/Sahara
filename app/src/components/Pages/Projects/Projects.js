@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom'
 
 import reqwest from 'reqwest';
-
+import {getAllinitiatives} from '../../../ethereum/initiative';
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
 class Projects extends Component {
@@ -23,10 +23,16 @@ class Projects extends Component {
   componentDidMount() {
     this.getData((res) => {
       this.setState({
-        loading: false,
         data: res.results,
       });
     });
+
+    getAllinitiatives(this.props.mnemonic).then((some) => {
+      this.setState({
+        list: some,
+        loading: false,
+      });
+    })
   }
 
   getData = (callback) => {
@@ -55,7 +61,6 @@ class Projects extends Component {
     });
   }
   render() {
-
     const { loading, loadingMore, showLoadingMore, list } = this.state;
     const loadMore = showLoadingMore ? (
       <div style={{ textAlign: 'center', marginTop: 12, height: 32, lineHeight: '32px' }}>
@@ -70,7 +75,7 @@ class Projects extends Component {
         <div>
           <br />
         <h2>Working Projects
-        <Button style={{float: "right", display: "flex"}}><Link to="/addproject">Add Projects</Link></Button>
+        <Button style={{float: "right", display: "flex"}}><Link to={`/addproject/${this.props.mnemonic}`}>Add Projects</Link></Button>
         </h2>
         <Divider ></Divider>
           <List
@@ -84,7 +89,7 @@ class Projects extends Component {
                 <List.Item.Meta
                   avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                   title={<Link to={"/projects/" + item.address }>{item.address}</Link>}
-                  description={`${item.projectName} : ${item.projectDesc}`}
+                  description={`${item.initiativeName} : ${item.initiativeDesc}`}
                 />
               </List.Item>
             )}

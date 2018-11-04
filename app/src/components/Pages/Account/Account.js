@@ -14,6 +14,7 @@ class Account extends Component {
         super();
         this.state = {
           formLayout: 'horizontal',
+          id: ''
         };
       }
       
@@ -30,13 +31,12 @@ class Account extends Component {
                     <Form layout={formLayout}>
                         <FormItem
                         >
-                            <Input placeholder="Your Ethereum mnemonic text" />
+                            <Input placeholder="Your Ethereum mnemonic text" value={this.state.id} onChange={(event) => this.setState({id: event.target.value})} />
                         </FormItem>
                         <FormItem
                         >
-                            <Link to="/projects">
-                                <Button type="primary">Add</Button>
-                            </Link>
+                        
+                                <Button type="primary" onClick={() => this.props.handleMnemonic(this.state.id)}>Add</Button>
                         </FormItem>
                     </Form>
                 </Col>

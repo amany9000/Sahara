@@ -45,4 +45,4 @@ deployInt("Teach them all", "Teaching the Kids of Gandhinagar", "Faksha Foundati
 	console.log("after deployment - ",add);
 });
 */
-module.exports = {readInt, getWeb3, deployInt};
+export {readInt, getWeb3, deployInt};
