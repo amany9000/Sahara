@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://amany9000.github.io/Sahara/",
   "dependencies": {
+    "@truffle/hdwallet-provider": "^1.0.35",
     "antd": "^3.10.3",
     "fs-extra": "^7.0.0",
     "gh-pages": "^2.0.1",
@@ -16,7 +17,6 @@
     "redux": "^4.0.1",
     "reqwest": "^2.0.5",
     "solc": "^0.4.25",
-    "truffle-hdwallet-provider": "0.0.6",
     "web3": "^1.0.0-beta.36"
   },
   "scripts": {
