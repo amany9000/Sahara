@@ -15,8 +15,8 @@ const web3 = new Web3(provider);
 return web3;	
 } 
 
-const readInt = async (pass) => {
-	const web3 = getWeb3(pass);
+const readInt = async (web3) => {
+	//const web3 = getWeb3(pass);
 	const accounts = await  web3.eth.getAccounts();
 	const store = await new web3.eth.Contract((JSON.parse(compiledStore.interface)), 
 	"0x24f5EC608bCcD0bA82AE395BD6a5bE084865bff2");
@@ -29,8 +29,8 @@ readInt("cousin wasp clip dynamic advance devote this million magic bean ceiling
 	console.log(deployedInts);
 })
 */
-const deployInt = async (initiativeName, initiativeDesc, creatorName, creatorContact, pass) => {
-	const web3 = getWeb3(pass);				
+const deployInt = async (initiativeName, initiativeDesc, creatorName, creatorContact, web3) => {
+	//const web3 = getWeb3(pass);				
 	const accounts = await  web3.eth.getAccounts();
 	const store = await new web3.eth.Contract((JSON.parse(compiledStore.interface)), 
 	"0x24f5EC608bCcD0bA82AE395BD6a5bE084865bff2");

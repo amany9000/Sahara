@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../../App.css';
 import { Form, Input, Button} from 'antd';
+import Web3 from 'web3';
 import { Row, Col, Divider } from 'antd';
 import { Switch } from 'antd';
 import {
@@ -17,7 +18,28 @@ class Account extends Component {
           id: ''
         };
       }
-      
+  
+
+  getWeb3 = (pass) => {
+    const provider = new hdWalletProvider(
+      pass,
+      "https://rinkeby.infura.io/v3/e8bccfbf91864d7ea8797b0ae8b2d30a"  // This address will be generated through infura 
+    );
+
+    const web3 = new Web3(provider);
+    return web3;	
+  }     
+
+  componentDidMount = () => {
+    if (window.ethereum){
+      window.web3 = new Web3(window.ethereum);
+      window.ethereum.enable();
+    }
+    else{
+      alert("Metamask not present, you would have to login using account Mnemomic")
+    }
+  }
+
   render() {
     const { TextArea } = Input;
     const { formLayout } = this.state;
@@ -27,7 +49,7 @@ class Account extends Component {
             <Row type="flex" justify="center">
                 <Col>
                     <br></br>
-                    <h1 style={{display: "flex", justifyContent: "center"}}>Add your Ethereum account</h1>
+                    <h1 style={{display: "flex", justifyContent: "center"}}>Or load account with Mnemonic</h1>
                     <Form layout={formLayout}>
                         <FormItem
                         >

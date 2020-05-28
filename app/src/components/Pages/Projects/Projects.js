@@ -27,7 +27,7 @@ class Projects extends Component {
       });
     });
 
-    getAllInitiatives(this.props.mnemonic).then((some) => {
+    getAllInitiatives(this.props.web3).then((some) => {
       this.setState({
         list: some,
         loading: false,
@@ -75,7 +75,7 @@ class Projects extends Component {
         <div>
           <br />
         <h2>Working Projects
-        <Button style={{float: "right", display: "flex"}}><Link to={`/addproject/${this.props.mnemonic}`}>Add Projects</Link></Button>
+        <Button style={{float: "right", display: "flex"}}><Link to={`/addproject/${this.props.web3}`}>Add Projects</Link></Button>
         </h2>
         <Divider ></Divider>
           <List
@@ -88,7 +88,7 @@ class Projects extends Component {
               <List.Item>
                 <List.Item.Meta
                   avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                  title={<Link to={`/projects/${item.address}/${this.props.mnemonic}`}>{item.address}</Link>}
+                  title={<Link to={`/projects/${item.address}/${this.props.web3}`}>{item.address}</Link>}
                   description={`${item.initiativeName} : ${item.initiativeDesc}`}
                 />
               </List.Item>

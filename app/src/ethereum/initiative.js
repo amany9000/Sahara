@@ -4,12 +4,12 @@ const compiledReq = require("../ethereum/build/Request.json");
 
 const {readInt, getWeb3, deployInt} = require("./store.js");
 
-const getAllInitiatives = async(pass) => {
+const getAllInitiatives = async(web3) => {
 
 	return await readInt(pass)
 		.then( async (deployedInts) => {
 		
-		const web3 = getWeb3(pass);	
+		//const web3 = getWeb3(pass);	
 		const accounts = await  web3.eth.getAccounts();
 		
 		const initiativeDetailList = [];
@@ -36,9 +36,9 @@ const getAllInitiatives = async(pass) => {
 	});
 }
 
-const getInitiativeDetails = async(address, pass) => {
+const getInitiativeDetails = async(address, web3) => {
 	
-	const web3 = getWeb3(pass);				
+	//const web3 = getWeb3(pass);				
 	const accounts = await  web3.eth.getAccounts();		
 	const initiativeDetailList = {};
 	
@@ -99,9 +99,9 @@ const getInitiativeDetails = async(address, pass) => {
 	return {initiativeName, initiativeDesc, creatorName, creatorContact,reqDetailList, BRDetail}
 }
 
-const contribute = async(address, amount, pass) => {
+const contribute = async(address, amount, web3) => {
 	
-	const web3 = getWeb3(pass);					
+	//const web3 = getWeb3(pass);					
 	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
 		address);
 
@@ -114,9 +114,9 @@ const contribute = async(address, amount, pass) => {
 }
 
 
-const createRequest = async(address, description, contact, value, recipient ,min, pass) => {
+const createRequest = async(address, description, contact, value, recipient ,min, web3) => {
 	
-	const web3 = getWeb3(pass);					
+	//const web3 = getWeb3(pass);					
 	const project = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
 		address);
 	const accounts = await  web3.eth.getAccounts();
@@ -146,9 +146,9 @@ const createRequest = async(address, description, contact, value, recipient ,min
 // 	console.log("yesss");			
 // }
 
-const finalizeRequest = async(address, pass) => {
+const finalizeRequest = async(address, web3) => {
 
-	const web3 = getWeb3(pass);						
+	//const web3 = getWeb3(pass);						
 	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
 		address);
 	const accounts = await  web3.eth.getAccounts();
@@ -164,9 +164,9 @@ const finalizeRequest = async(address, pass) => {
 	});
 }
 
-const finalizeBR = async(address, index, pass) => {
+const finalizeBR = async(address, index, web3) => {
 
-	const web3 = getWeb3(pass);						
+	//const web3 = getWeb3(pass);						
 	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
 		address);
 	const accounts = await  web3.eth.getAccounts();
@@ -182,9 +182,9 @@ const finalizeBR = async(address, index, pass) => {
 	});
 }
 
-const approveBR = async(address, index, pass) => {
+const approveBR = async(address, index, web3) => {
 
-	const web3 = getWeb3(pass);							
+	//const web3 = getWeb3(pass);							
 	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
 		address);
 	const accounts = await  web3.eth.getAccounts();
@@ -200,9 +200,9 @@ const approveBR = async(address, index, pass) => {
 	});
 }
 
-const getBRDetails = async(address, index, pass) => {
+const getBRDetails = async(address, index, web3) => {
 
-	const web3 = getWeb3(pass);								
+	//const web3 = getWeb3(pass);								
 	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
 		address);
 
@@ -219,9 +219,9 @@ const getBRDetails = async(address, index, pass) => {
     console.log(BRDesc)
     return BRDesc;  
 }
-const getReqDetails = async(address, pass) => {
+const getReqDetails = async(address, web3) => {
 
-	const web3 = getWeb3(pass);								
+	//const web3 = getWeb3(pass);								
 	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
 		address);
 	const desp = await req.methods.description().call(); 

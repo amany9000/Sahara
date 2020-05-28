@@ -6,25 +6,25 @@ class Auth extends Component {
     constructor(props) {
         super();
         this.state = {
-            mnemonic: '',
+            web3: '',
           };
-          this.handleMnemonic = this.handleMnemonic.bind(this);
+          this.handleWeb3 = this.handleWeb3.bind(this);
     }
 
-    handleMnemonic(value) {
+    handleWeb3(value) {
         this.setState({
-            mnemonic: value
+            web3: value
         });
     }
   render() {
-    if(this.state.mnemonic === '') {
+    if(this.state.web3 === '') {
         return(
-            <Account handleMnemonic={this.handleMnemonic} />
+            <Account handleWeb3={this.handleWeb3} />
         );
     }
     else {
         return(
-            <Project mnemonic={this.state.mnemonic} />
+            <Project web3={this.state.web3} />
         );
     }
   }
