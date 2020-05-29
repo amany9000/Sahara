@@ -7,9 +7,10 @@ import { Card, InputNumber } from 'antd';
 import reqwest from 'reqwest';
 import { List, Avatar, Spin, Menu, Icon } from 'antd';
 import {
-  Link
+  Link,
+  withRouter
 } from 'react-router-dom'
-import {getInitiativeDetails} from '../../../ethereum/initiative';
+import {getInitiativeDetails, contribute} from '../../../ethereum/initiative';
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
 const FormItem = Form.Item;
@@ -24,16 +25,25 @@ class About extends Component {
         loadingMore: false,
         showLoadingMore: true,
         data: [],
-        project: null
+        project: null,
+        approver : false,
+        finVal : 5
       }
+
+      sendVal = () => {
+        contribute(this.props.match.params.projectId, this.finVal ,this.props.location.web3)
+          .then(() => alert("Contribution Made, thank you!!!!!"))
+      }
+
       componentDidMount() {
         this.getData((res) => {
           this.setState({
             data: res.results,
+            finVal : 5
           });
         });
 
-        getInitiativeDetails(this.props.match.params.projectId, this.props.match.params.pass).then((some) => {
+        getInitiativeDetails(this.props.match.params.projectId, this.props.location.web3).then((some) => {
           this.setState({
             project: some,
             loading: false,
@@ -102,17 +112,17 @@ class About extends Component {
                 <Col span={6} push={18}>
                     <Form layout={formLayout}>
                         <FormItem {...buttonItemLayout}>
-                            <Switch checkedChildren="Associate" unCheckedChildren="Contributor"/>
+                            <Switch checkedChildren="Approver" unCheckedChildren="Not Approver"/>
 
                         </FormItem>
                         <FormItem
                             label="Contribute"
                             {...formItemLayout}
                         >
-                        <InputNumber min={0} defaultValue={3}  onChange={onChange}/>
+                        <InputNumber min={0} value={this.state.finVal}  onChange={(evt)=> this.setState({finVal : evt.target.value})}/>
                         </FormItem>
                         <FormItem {...buttonItemLayout}>
-                            <Button type="primary" >Contribute</Button>
+                            <Button type="primary" onClick={()=> this.sendVal()} >Contribute</Button>
                         </FormItem>
                     </Form>
                 </Col>
@@ -183,4 +193,4 @@ class About extends Component {
 }
 
 
-export default About;
+export default withRouter(About);

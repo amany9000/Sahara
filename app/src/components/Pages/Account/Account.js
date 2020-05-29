@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../../App.css';
 import { Form, Input, Button} from 'antd';
 import Web3 from 'web3';
+import hdWalletProvider from '@truffle/hdwallet-provider';
 import { Row, Col, Divider } from 'antd';
 import { Switch } from 'antd';
 import {
@@ -27,13 +28,14 @@ class Account extends Component {
     );
 
     const web3 = new Web3(provider);
-    return web3;	
+    this.props.handleWeb3(web3);	
   }     
 
   componentDidMount = () => {
     if (window.ethereum){
       window.web3 = new Web3(window.ethereum);
       window.ethereum.enable();
+      this.props.handleWeb3(window.web3);
     }
     else{
       alert("Metamask not present, you would have to login using account Mnemomic")
@@ -58,7 +60,7 @@ class Account extends Component {
                         <FormItem
                         >
                         
-                                <Button type="primary" onClick={() => this.props.handleMnemonic(this.state.id)}>Add</Button>
+                                <Button type="primary" onClick={() => this.getWeb3(this.state.id)}>Add</Button>
                         </FormItem>
                     </Form>
                 </Col>

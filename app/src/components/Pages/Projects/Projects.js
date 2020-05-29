@@ -5,7 +5,8 @@ import { Row, Col } from 'antd';
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  withRouter
 } from 'react-router-dom'
 
 import reqwest from 'reqwest';
@@ -88,7 +89,9 @@ class Projects extends Component {
               <List.Item>
                 <List.Item.Meta
                   avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                  title={<Link to={`/projects/${item.address}/${this.props.web3}`}>{item.address}</Link>}
+                  title={<a 
+                  onClick={() => this.props.history.push({ pathname: `/projects/${item.address}`, web3 : this.props.web3})}                  
+                  >{item.address}</a>}
                   description={`${item.initiativeName} : ${item.initiativeDesc}`}
                 />
               </List.Item>
@@ -103,4 +106,4 @@ class Projects extends Component {
 }
 
 
-export default Projects;
+export default withRouter(Projects);

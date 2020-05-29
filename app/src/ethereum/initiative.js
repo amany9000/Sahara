@@ -6,7 +6,7 @@ const {readInt, getWeb3, deployInt} = require("./store.js");
 
 const getAllInitiatives = async(web3) => {
 
-	return await readInt(pass)
+	return await readInt(web3)
 		.then( async (deployedInts) => {
 		
 		//const web3 = getWeb3(pass);	
@@ -39,6 +39,7 @@ const getAllInitiatives = async(web3) => {
 const getInitiativeDetails = async(address, web3) => {
 	
 	//const web3 = getWeb3(pass);				
+	console.log("get", address, web3)
 	const accounts = await  web3.eth.getAccounts();		
 	const initiativeDetailList = {};
 	
@@ -100,7 +101,7 @@ const getInitiativeDetails = async(address, web3) => {
 }
 
 const contribute = async(address, amount, web3) => {
-	
+	console.log("cont")	
 	//const web3 = getWeb3(pass);					
 	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
 		address);
@@ -109,7 +110,7 @@ const contribute = async(address, amount, web3) => {
 	console.log(accounts)
 	await req.methods.contribute().send({
 		from: accounts[0],
-		value: amount
+		value: (amount/1000)
 	});
 }
 
