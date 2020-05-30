@@ -11,6 +11,7 @@ import {
   withRouter
 } from 'react-router-dom'
 import {getInitiativeDetails, contribute} from '../../../ethereum/initiative';
+
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
 const FormItem = Form.Item;
@@ -31,7 +32,7 @@ class About extends Component {
       }
 
       sendVal = () => {
-        contribute(this.props.match.params.projectId, this.finVal ,this.props.location.web3)
+        contribute(this.props.match.params.projectId, this.state.finVal ,this.props.location.web3)
           .then(() => alert("Contribution Made, thank you!!!!!"))
       }
 
@@ -118,8 +119,9 @@ class About extends Component {
                         <FormItem
                             label="Contribute"
                             {...formItemLayout}
+                            onChange={(evt)=> this.setState({finVal : evt.target.value})}
                         >
-                        <InputNumber min={0} value={this.state.finVal}  onChange={(evt)=> this.setState({finVal : evt.target.value})}/>
+                        <InputNumber min={0} value={this.state.finVal}/>
                         </FormItem>
                         <FormItem {...buttonItemLayout}>
                             <Button type="primary" onClick={()=> this.sendVal()} >Contribute</Button>
@@ -147,8 +149,10 @@ class About extends Component {
                             {/* <List.Item actions={[<a>edit</a>, <a>more</a>]}> */}
                                 <List.Item.Meta
                                 avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                title={item.address}
-                                description={<Link to={`/requests/${item.address}/${this.props.match.params.pass}/${index}`}>{item.description}</Link>}
+                                title={<a 
+                                  onClick={() => this.props.history.push({ pathname: `/requests/${item.address}/${index}`, web3 : this.props.location.web3})}                  
+                                  >{item.address}</a>}
+                                  description={item.description}
                                 />
                                 <div><h4>Requested value={item.value}</h4></div>
                             </List.Item>

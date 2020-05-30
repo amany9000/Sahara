@@ -75,6 +75,7 @@ contract Request{
     address public recipient;
     bool public complete;
     address public manager;
+    // in wei
     uint public minContribution;
     uint public approversCount;
     mapping (address => bool) public approvers;

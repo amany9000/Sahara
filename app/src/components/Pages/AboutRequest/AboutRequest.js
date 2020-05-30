@@ -6,21 +6,21 @@ import { Switch } from 'antd';
 import { Card, InputNumber } from 'antd';
 import reqwest from 'reqwest';
 import { List, Avatar, Spin, Menu, Icon } from 'antd';
+
 import {
-  Link
+  Link,
+  withRouter
 } from 'react-router-dom'
-import { getReqDetails, contribute, finalizeRequest } from "../../../ethereum/initiative";
-// import {finalizeRequest} from '../../../ethereum/initiative';
+
+import {getReqDetails, contribute, finalizeRequest} from "../../../ethereum/initiative";
 
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
 const FormItem = Form.Item;
 
-
 function onChange(value) {
     console.log('changed', value);
-  }
-  
+}
 
 class About extends Component {
     state = {
@@ -37,8 +37,7 @@ class About extends Component {
             data: res.results,
           });
         });
-        getReqDetails(this.props.match.params.requestId, this.props.match.params.pass).then((some) => {
-          console.log(some);
+        getReqDetails(this.props.match.params.requestId, this.props.location.web3).then((some) => {
           this.setState({
             request: some,
             loading: false
@@ -79,7 +78,6 @@ class About extends Component {
       }
       
   render() {
-    console.log(this.props.match.params.requestId + ' ' + this.props.match.params.pass)
     const { loading, loadingMore, showLoadingMore, data, request } = this.state;
     const loadMore = showLoadingMore ? (
       <div style={{ textAlign: 'center', marginTop: 12, height: 32, lineHeight: '32px' }}>
@@ -105,31 +103,31 @@ class About extends Component {
                 <Col span={6} push={18}>
                     <Form layout={formLayout}>
                         <FormItem {...buttonItemLayout}>
-                            <Switch checkedChildren="Approve" unCheckedChildren="Decline"/>
+                            <Switch checkedChildren="Approver" unCheckedChildren="Not Approver"/>
                         </FormItem>
                         <FormItem
                             label="Value"
                             {...formItemLayout}
                         >
-                            <Input placeholder="Value (in Wei)" value={this.state.value} onChange={(event) => this.setState({value: event.target.value})}/>
+                            <Input placeholder="Value (in Finney)" value={this.state.value} onChange={(event) => this.setState({value: event.target.value})}/>
                         </FormItem>
 
                         <FormItem {...buttonItemLayout}>
-                            <Button type="primary" onClick={()=> contribute(this.props.match.params.requestId, this.state.value, this.props.match.params.pass)}>Contribute</Button>
+                            <Button type="primary" onClick={()=> contribute(this.props.match.params.requestId, this.state.value, this.props.location.web3).then(() => alert("Contribution Made, thank you!!!!"))}>Contribute</Button>
                         </FormItem>                        
                         <FormItem {...buttonItemLayout}>
-                            <Button type="danger" onClick={()=> finalizeRequest(this.props.match.params.requestId, this.props.match.params.pass)}>Finalize</Button>
+                            <Button type="danger" onClick={()=> finalizeRequest(this.props.match.params.requestId, this.props.location.web3)}>Finalize</Button>
                         </FormItem>
                     </Form>
                 </Col>
                 <Col span={16} pull={4}>
                         {request?
                         <div>
-                    <h2>{request.description}</h2>
-                    <p>Contact: {request.contact}</p>
-                    <p>Reciepient: {request.recipient}</p>
-                    <p>Is Complete: {request.complete?"Yes":"No"}</p>
-                    <p>Value: {request.value}</p>
+                    <h2><strong>{request.description}</strong></h2>
+                    <p><strong>Contact:</strong> {request.contact}</p>
+                    <p><strong>Reciepient:</strong> {request.recipient}</p>
+                    <p><strong>Is Complete:</strong> {request.complete?"Yes":"No"}</p>
+                    <p><strong>Value:</strong> {request.value}</p>
                     </div>
                         :
                         null}
@@ -142,4 +140,4 @@ class About extends Component {
 }
 
 
-export default About;
+export default withRouter(About);

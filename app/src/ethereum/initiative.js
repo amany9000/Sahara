@@ -101,7 +101,7 @@ const getInitiativeDetails = async(address, web3) => {
 }
 
 const contribute = async(address, amount, web3) => {
-	console.log("cont")	
+	console.log("cont", address, amount)	
 	//const web3 = getWeb3(pass);					
 	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
 		address);
@@ -110,7 +110,7 @@ const contribute = async(address, amount, web3) => {
 	console.log(accounts)
 	await req.methods.contribute().send({
 		from: accounts[0],
-		value: (amount/1000)
+		value: web3.utils.toWei(amount, "finney")
 	});
 }
 
@@ -221,7 +221,6 @@ const getBRDetails = async(address, index, web3) => {
     return BRDesc;  
 }
 const getReqDetails = async(address, web3) => {
-
 	//const web3 = getWeb3(pass);								
 	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
 		address);
