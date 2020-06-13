@@ -1,11 +1,13 @@
-pragma solidity ^0.4.17;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.8;
+
 contract Store {
     address[] public deployedInitiatives;
-    function createInitiative(string initiativeName, string initiativeDesc, string creatorName, string creatorContact) public{
-        address newInitiative = new Initiative(msg.sender, initiativeName, initiativeDesc, creatorName, creatorContact);
+    function createInitiative(string memory initiativeName, string memory initiativeDesc, string memory creatorName, string memory creatorContact) public{
+        address newInitiative = address ( new Initiative(msg.sender, initiativeName, initiativeDesc, creatorName, creatorContact) );
         deployedInitiatives.push(newInitiative);
     }
-    function getDeployedInitiatives() public view returns (address[]){
+    function getDeployedInitiatives() public view returns (address [] memory){
         return deployedInitiatives;
     }
 }
@@ -18,7 +20,7 @@ contract Initiative {
     string public creatorContact;
     struct BackRequest{
         address source;
-        address dest;
+        address payable dest;
         uint value;
         uint approvalCount;
         mapping(address => bool) approvals;
@@ -28,14 +30,14 @@ contract Initiative {
         require(msg.sender == manager);
         _;
     }
-    constructor (address creator, string InitiativeName, string InitiativeDesc, string CreatorName, string CreatorContact) public{
+    constructor (address creator, string memory InitiativeName, string memory InitiativeDesc, string memory CreatorName, string memory CreatorContact) public{
         manager = creator;
         initiativeName = InitiativeName;
         initiativeDesc = InitiativeDesc;
         creatorName = CreatorName;
         creatorContact = CreatorContact;
     }
-    function createBR(address From, address to, uint val) public onlyManager{
+    function createBR(address From, address payable to, uint val) public onlyManager{
         Request temp = Request(to);
         require(temp.checkStatus(val));
         BackRequest memory newBR = BackRequest({
@@ -60,11 +62,11 @@ contract Initiative {
         require(backRequests[index].approvalCount == count);  
         temp.back(backRequests[index].dest, backRequests[index].value);
     }
-    function createRequest(string description, string contact, uint value, address recipient, uint min) public onlyManager{
-        address newRequest = new Request(description, contact, value, recipient, min, manager);
+    function createRequest(string memory description, string memory contact, uint value, address payable recipient, uint min) public onlyManager{
+        address newRequest = address (new Request(description, contact, value, recipient, min, manager));
         deployedRequests.push(newRequest);
     }
-    function getDeployedRequests() public view returns (address[]){
+    function getDeployedRequests() public view returns (address[] memory){
         return deployedRequests;
     }
 }
@@ -72,14 +74,14 @@ contract Request{
     string public description;
     string public contact;
     uint public value;
-    address public recipient;
+    address payable public recipient;
     bool public complete;
     address public manager;
     // in wei
     uint public minContribution;
     uint public approversCount;
     mapping (address => bool) public approvers;
-    constructor(string descp, string Contact, uint val, address recip, uint min, address sentManager) public{
+    constructor(string memory descp, string memory Contact, uint val, address payable recip, uint min, address sentManager) public{
         description = descp;
         contact = Contact;
         value = val;
@@ -112,7 +114,7 @@ contract Request{
         approvers[msg.sender] = true;
         approversCount++;
     }
-    function back(address dest, uint val) public tarNotDone {
+    function back(address payable dest, uint val) public tarNotDone {
         require(!complete);
         require((address(this).balance) >= (val));
         dest.transfer(val);

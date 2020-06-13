@@ -1,4 +1,3 @@
-
 // Compile script to store the camapaign and projectStore contract object in build directory
 const path = require("path");
 const solc = require("solc");
@@ -9,7 +8,30 @@ fs.removeSync(buildPath);
 
 const projectPath = path.resolve(__dirname, "contracts", "Initiative.sol");
 const source = fs.readFileSync(projectPath, "utf-8");
-const output = solc.compile(source, 1).contracts;
+
+const input = {
+    language: 'Solidity',
+    sources: {
+        'Store' : {
+            content: source
+        },
+        'Initiative' : {
+            content: source
+        },
+        'Request' : {
+            content: source
+        }
+    },
+    settings: {
+        outputSelection: {
+            '*': {
+                '*': [ '*' ]
+            }
+        }
+    }
+};
+console.log(solc.compile(JSON.stringify(input)))
+const output = JSON.parse(solc.compile(JSON.stringify(input))).contracts;
 
 fs.ensureDirSync(buildPath);
 

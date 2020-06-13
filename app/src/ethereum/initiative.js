@@ -9,8 +9,7 @@ const getAllInitiatives = async(web3) => {
 	return await readInt(web3)
 		.then( async (deployedInts) => {
 		
-		//const web3 = getWeb3(pass);	
-		const accounts = await  web3.eth.getAccounts();
+		//const accounts = await  web3.eth.getAccounts();
 		
 		const initiativeDetailList = [];
 		for(var i in deployedInts){		
@@ -38,9 +37,8 @@ const getAllInitiatives = async(web3) => {
 
 const getInitiativeDetails = async(address, web3) => {
 	
-	//const web3 = getWeb3(pass);				
-	console.log("get", address, web3)
-	const accounts = await  web3.eth.getAccounts();		
+	//console.log("get", address, web3)
+	//const accounts = await  web3.eth.getAccounts();		
 	const initiativeDetailList = {};
 	
 	const initiative = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
@@ -108,7 +106,7 @@ const contribute = async(address, amount, web3) => {
 
 	const accounts = await  web3.eth.getAccounts();
 	console.log(accounts)
-	await req.methods.contribute().send({
+	return await req.methods.contribute().send({
 		from: accounts[0],
 		value: web3.utils.toWei(amount, "finney")
 	});
@@ -122,13 +120,12 @@ const createRequest = async(address, description, contact, value, recipient ,min
 		address);
 	const accounts = await  web3.eth.getAccounts();
 	
-	await project.methods
+	return await project.methods
 			.createRequest(description,contact, value, recipient, min)
 			.send({
 				from: accounts[0],
 				gas: "3000000"
 			});
-	console.log("yesss");			
 }
 
 // const createBR = async(address, from, to, val, pass) => {
@@ -245,7 +242,7 @@ const getReqDetails = async(address, web3) => {
     console.log(reqDesc)
     return reqDesc;  
 }
-//getAllInitiatives("cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
+getAllInitiatives(getWeb3("cousin wasp clip dynamic advance devote this million magic bean ceiling anger"));
 //getInitiativeDetails("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E","cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
 //createRequest("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E", "Buying Utensils","www.vendor.com", 4,"0x88a4dd75299C3628dc75ba58f238bD3Fff29Ede0",1, "cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
 // contribute("0x31E7cb1Ad0F3bbb45a77f56e12D12C7a3Dec1b55","4","sunset mixture horn mail various scene civil bundle code struggle indicate assault");
