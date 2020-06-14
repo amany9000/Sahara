@@ -30,7 +30,7 @@ const input = {
         }
     }
 };
-console.log(solc.compile(JSON.stringify(input)))
+
 const output = JSON.parse(solc.compile(JSON.stringify(input))).contracts;
 
 fs.ensureDirSync(buildPath);

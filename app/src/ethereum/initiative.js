@@ -9,11 +9,9 @@ const getAllInitiatives = async(web3) => {
 	return await readInt(web3)
 		.then( async (deployedInts) => {
 		
-		//const accounts = await  web3.eth.getAccounts();
-		
 		const initiativeDetailList = [];
 		for(var i in deployedInts){		
-			const initiative = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
+			const initiative = await new web3.eth.Contract(compiledInt.Initiative.abi, 
 			deployedInts[i]);
 
 			const initiativeName = await initiative.methods.initiativeName().call();
@@ -28,20 +26,17 @@ const getAllInitiatives = async(web3) => {
 				creatorName,
 				creatorContact
 			});
-			// delete initiative, initiativeName, initiativeDesc, creatorContact, creatorName;
 		}
-		console.log(initiativeDetailList);
+		//console.log(initiativeDetailList);
 		return initiativeDetailList;
 	});
 }
 
 const getInitiativeDetails = async(address, web3) => {
 	
-	//console.log("get", address, web3)
-	//const accounts = await  web3.eth.getAccounts();		
 	const initiativeDetailList = {};
 	
-	const initiative = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
+	const initiative = await new web3.eth.Contract(compiledInt.Initiative.abi, 
 	address);
 	
 	const initiativeName = await initiative.methods.initiativeName().call();
@@ -49,9 +44,6 @@ const getInitiativeDetails = async(address, web3) => {
 	const creatorName = await initiative.methods.creatorName().call();
 	const creatorContact = await initiative.methods.creatorContact().call();
 
-
-
-	//console.log(request)
 	let i = 0;
 	let BRDetail = [];
 	
@@ -59,7 +51,7 @@ const getInitiativeDetails = async(address, web3) => {
 
 	const reqDetailList = [];
 		for(i in deployedReq){		
-			const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
+			const req = await new web3.eth.Contract(compiledReq.Request.abi, 
 			deployedReq[i]);
 
 			const description = await req.methods.description().call();
@@ -70,12 +62,9 @@ const getInitiativeDetails = async(address, web3) => {
 				description,
 				value
 			});
-			// delete description,value;
 		}
-	console.log("reqDetailList - ", reqDetailList);
 
 	let backRequest  = await initiative.methods.backRequests(0).call().catch((err) => {
-		console.log("hey1",{initiativeName, initiativeDesc, creatorName, creatorContact})
 		return {initiativeName, initiativeDesc, creatorName, creatorContact, reqDetailList}
 	});	
 	while(backRequest.source != null){
@@ -94,14 +83,13 @@ const getInitiativeDetails = async(address, web3) => {
 		});
 	}
 	// delete initiative,i,backRequest; 	
-	console.log("hey3",{initiativeName, initiativeDesc, creatorName, creatorContact, reqDetailList, BRDetail})
 	return {initiativeName, initiativeDesc, creatorName, creatorContact,reqDetailList, BRDetail}
 }
 
 const contribute = async(address, amount, web3) => {
 	console.log("cont", address, amount)	
 	//const web3 = getWeb3(pass);					
-	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
+	const req = await new web3.eth.Contract(compiledReq.Request.abi, 
 		address);
 
 	const accounts = await  web3.eth.getAccounts();
@@ -116,7 +104,7 @@ const contribute = async(address, amount, web3) => {
 const createRequest = async(address, description, contact, value, recipient ,min, web3) => {
 	
 	//const web3 = getWeb3(pass);					
-	const project = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
+	const project = await new web3.eth.Contract(compiledInt.Initiative.abi, 
 		address);
 	const accounts = await  web3.eth.getAccounts();
 	
@@ -131,7 +119,7 @@ const createRequest = async(address, description, contact, value, recipient ,min
 // const createBR = async(address, from, to, val, pass) => {
 	
 // 	const web3 = getWeb3(pass);					
-// 	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
+// 	const int = await new web3.eth.Contract(compiledInt.Initiative.abi, 
 // 		address);
 // 	const accounts = await  web3.eth.getAccounts();
 	
@@ -147,10 +135,10 @@ const createRequest = async(address, description, contact, value, recipient ,min
 const finalizeRequest = async(address, web3) => {
 
 	//const web3 = getWeb3(pass);						
-	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
+	const req = await new web3.eth.Contract(compiledReq.Request.abi, 
 		address);
 	const accounts = await  web3.eth.getAccounts();
-	let request  = await req.methods.finalizeRequest().send({
+	await req.methods.finalizeRequest().send({
 				from: accounts[0],
 				gas: "3000000"
 			}).then((xyz) => {
@@ -165,7 +153,7 @@ const finalizeRequest = async(address, web3) => {
 const finalizeBR = async(address, index, web3) => {
 
 	//const web3 = getWeb3(pass);						
-	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
+	const int = await new web3.eth.Contract(compiledInt.Initiative.abi, 
 		address);
 	const accounts = await  web3.eth.getAccounts();
 	let request  = await int.methods.finalizeBR().send({
@@ -183,7 +171,7 @@ const finalizeBR = async(address, index, web3) => {
 const approveBR = async(address, index, web3) => {
 
 	//const web3 = getWeb3(pass);							
-	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
+	const int = await new web3.eth.Contract(compiledInt.Initiative.abi, 
 		address);
 	const accounts = await  web3.eth.getAccounts();
 	let request  = await int.methods.approveBR(index).send({
@@ -201,7 +189,7 @@ const approveBR = async(address, index, web3) => {
 const getBRDetails = async(address, index, web3) => {
 
 	//const web3 = getWeb3(pass);								
-	const int = await new web3.eth.Contract((JSON.parse(compiledInt.interface)), 
+	const int = await new web3.eth.Contract(compiledInt.Initiative.abi, 
 		address);
 
 	const accounts = await  web3.eth.getAccounts();
@@ -219,7 +207,7 @@ const getBRDetails = async(address, index, web3) => {
 }
 const getReqDetails = async(address, web3) => {
 	//const web3 = getWeb3(pass);								
-	const req = await new web3.eth.Contract((JSON.parse(compiledReq.interface)), 
+	const req = await new web3.eth.Contract(compiledReq.Request.abi, 
 		address);
 	const desp = await req.methods.description().call(); 
 	const con = await req.methods.contact().call(); 
@@ -242,9 +230,11 @@ const getReqDetails = async(address, web3) => {
     console.log(reqDesc)
     return reqDesc;  
 }
-getAllInitiatives(getWeb3("cousin wasp clip dynamic advance devote this million magic bean ceiling anger"));
-//getInitiativeDetails("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E","cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
+
+//getAllInitiatives(getWeb3("cousin wasp clip dynamic advance devote this million magic bean ceiling anger")).then(console.log);
+getInitiativeDetails("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E",getWeb3("cousin wasp clip dynamic advance devote this million magic bean ceiling anger")).then(console.log);
 //createRequest("0x9EDe6739711Ba0Af33dec68578EF1df25F81f44E", "Buying Utensils","www.vendor.com", 4,"0x88a4dd75299C3628dc75ba58f238bD3Fff29Ede0",1, "cousin wasp clip dynamic advance devote this million magic bean ceiling anger");
 // contribute("0x31E7cb1Ad0F3bbb45a77f56e12D12C7a3Dec1b55","4","sunset mixture horn mail various scene civil bundle code struggle indicate assault");
 
-export {getAllInitiatives, createRequest, getInitiativeDetails, getReqDetails, contribute,finalizeRequest};
+//export {getAllInitiatives, createRequest, getInitiativeDetails, getReqDetails, contribute, finalizeRequest, finalizeBR, approveBR, getBRDetails};
+module.exports = {getAllInitiatives, createRequest, getInitiativeDetails, getReqDetails, contribute, finalizeRequest, finalizeBR, approveBR, getBRDetails};

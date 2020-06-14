@@ -9,7 +9,7 @@ app/package-lock.json
 /coverage
 
 # production
-app/build
+app/src/ethereum/build
 
 # misc
 .DS_Store

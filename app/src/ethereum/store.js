@@ -18,7 +18,7 @@ const getWeb3 = (pass) => {
 const readInt = async (web3) => {
 	//const web3 = getWeb3(pass);
 	const accounts = await  web3.eth.getAccounts();
-	const store = await new web3.eth.Contract((JSON.parse(compiledStore.interface)), 
+	const store = await new web3.eth.Contract(compiledStore.Store.abi, 
 	"0x24f5EC608bCcD0bA82AE395BD6a5bE084865bff2");
 
 	return await store.methods.getDeployedInitiatives().call();
@@ -35,7 +35,6 @@ const deployInt = async (initiativeName, initiativeDesc, creatorName, creatorCon
 	const store = await new web3.eth.Contract((JSON.parse(compiledStore.interface)), 
 	"0x24f5EC608bCcD0bA82AE395BD6a5bE084865bff2");
     const dep = await store.methods.getDeployedInitiatives().call();		
-	console.log("Deployed Int Initially- ", dep)
 	await store.methods.createInitiative(initiativeName, initiativeDesc, creatorName, creatorContact).send(({gas: "3000000", from: accounts[0]}));	
 	// delete dep;
 	return await store.methods.getDeployedInitiatives().call()
@@ -45,4 +44,5 @@ deployInt("Teach them all", "Teaching the Kids of Gandhinagar", "Faksha Foundati
 	console.log("after deployment - ",add);
 });
 */
-export {readInt, getWeb3, deployInt};
+//export {readInt, getWeb3, deployInt};
+module.exports = {readInt, getWeb3, deployInt};
